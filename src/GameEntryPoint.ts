@@ -3,6 +3,7 @@ import IsoEngine from "./Engine/IsoEngine";
 import Engine from "./Engine/Engine.ts";
 import Gui from "./Engine/Gui/Gui.ts";
 import Foreground from "./Common/Foreground";
+import Dimensions from "./Common/DimensionsHelper";
 
 export function Start(){
 	let dofusBody = document.createElement('div');
@@ -17,6 +18,8 @@ export function Start(){
 	Engine.gui = new Gui();
 	Engine.isoEngine = new IsoEngine();
 	Engine.foreground = new Foreground();
+
+	Engine.isoEngine.updateDimensions(Dimensions);
 	// Create the renderer
 
 }

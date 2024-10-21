@@ -8,7 +8,14 @@ export default class Gui {
 
     private _resizeUi(){
         Dimensions.updateScreen();
-        Dimensions.resizeWideScreen();
+
+        let screenRatio = Dimensions.screenWidth / Dimensions.screenHeight;
+        if (screenRatio <= 1.5) {
+            Dimensions.resizeNarrowScreen();
+        }
+        else {
+            Dimensions.resizeWideScreen();
+        }
 
         if(Engine.isoEngine) {
             Engine.isoEngine.updateDimensions(Dimensions);
