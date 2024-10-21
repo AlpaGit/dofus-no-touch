@@ -1,10 +1,10 @@
 import Constants from "../../Common/Constants";
 import Outline from "./Outline.ts";
-import LineBatch from "../LineBatch";
 import ColorHelper from "../ColorHelper";
 import Atouin from "../Atouin";
-import BoxBatch from "../BoxBatch";
 import Engine from "../Engine.ts";
+import LineBatch from "../../Common/LineBatch";
+import BoxBatch from "../../Common/BoxBatch";
 
 const GRID_ALTITUDE_OFFSET = Constants.GRID_ALTITUDE_OFFSET;
 const CELL_WIDTH           = Constants.CELL_WIDTH;
@@ -22,7 +22,7 @@ let NextZoneId = 1;
  * @param {string}   options.outline - outline color
  */
 export default class Zone {
-    public id: number | null = null;
+    public id: number | string | null = null;
     public outline: string | boolean;
     public color: string;
     public data: any;

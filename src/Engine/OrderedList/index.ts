@@ -1,8 +1,6 @@
 /**
  * PRIORITY LIST Class
  *
- * @author Brice Chevalier
- *
  * @param {function} comparisonFunction - comparison function that takes two parameters a and b and returns a number
  *
  * @desc Priority list data structure, elements remain sorted

@@ -3,8 +3,8 @@ import GridData from "./GridData.ts";
 import MapCoordinate from "./MapCoordinate.ts";
 import Vector2D from "../../Common/Vectors/Vector2D.ts";
 import ClosestCellData from "./ClosestCellData.ts";
-import MapPoint from "../MapPoint/index.ts";
 import CellData from "./CellData.ts";
+import MapPoint from "../../Common/MapPoint";
 
 //var mapPoint = require('mapPoint');
 

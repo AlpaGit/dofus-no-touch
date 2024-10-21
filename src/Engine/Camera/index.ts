@@ -38,8 +38,8 @@ export default class Camera extends EventEmitter {
 
     public z: number = 1;
 
-    public zoomTarget: number = 1;
-    public minZoom: number = 1;
+    public zoomTarget: number = 0;
+    public minZoom: number = 0;
     public maxZoom: number = 1;
 
     public followee: Vector2D = {x: 0, y: 0};

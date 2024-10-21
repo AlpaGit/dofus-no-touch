@@ -2,8 +2,6 @@
  *
  * @file A set of ease functions
  *
- * @author Brice Chevalier
- *
  * @param {Number} t Progress of the transition in [0, 1]
  * @param (Number) p Additional parameter, when required.
  *

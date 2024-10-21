@@ -19,9 +19,9 @@ const CELL_HALF_HEIGHT     = CELL_HEIGHT / 2;
 export default class GridFeedbackOverlay extends Sprite {
     public spriteBoxes: SpriteBox[] = [];
 
-    private _bbox: number[] = [];
+    _bbox: number[] = [];
     private _boxByteSize: number;
-    private _updated: boolean;
+    _updated: boolean;
     private _vertexBuffer: ArrayBuffer = new ArrayBuffer(0);
 
     constructor() {

@@ -20,7 +20,9 @@ const MAX_SIDEBAR_WIDE = 210;
  *  dimensions.windowFullScreenWidth: maximum width of windows
  *  NB: we could add more constants for windows, e.g. when we want them to overlap the menubar
  */
-export class Dimensions {
+
+
+export class DimensionsHelper {
     physicalScreenWidth: number;
     physicalScreenHeight: number;
     screenWidth: number = 0;
@@ -130,3 +132,8 @@ export class Dimensions {
         };
     }
 }
+
+const Dimensions = new DimensionsHelper();
+Dimensions.updateScreen();
+
+export default Dimensions;

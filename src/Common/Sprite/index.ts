@@ -14,8 +14,6 @@ import {ElementHandle} from "../Cache3State/ElementHandle.ts";
  * is modified then the sprite becomes isOutdated and its
  * renderer is notified.
  *
- * @author Brice Chevalier
- *
  * @param {Object} params - parameters object
  */
 
@@ -36,7 +34,7 @@ export default class Sprite extends SpriteAbstract {
     private _rotation: number;
     private _spriteRef: any | null = null;
 
-    private _cleared: boolean = false;
+    protected _cleared: boolean = false;
 
     constructor(params: SpriteParams) {
         super(params);

@@ -1,8 +1,6 @@
 /**
  * AVL TREE Class
  *
- * @author Brice Chevalier
- *
  * @param {function} comparisonFunction comparison function that takes two parameters a and b and returns a number
  *
  * @desc Avl Tree data structure, keep elements sorted, removal and insertion in O(log2(n))

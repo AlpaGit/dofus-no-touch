@@ -1,6 +1,7 @@
-import Sprite from "../Sprite";
-import SpriteParams from "../SpriteAbstract/SpriteParams.ts";
 import {ElementHandle} from "../Cache3State/ElementHandle.ts";
+import Sprite from "../../Common/Sprite";
+import SpriteParams from "../../Common/SpriteAbstract/SpriteParams.ts";
+import LineBatch from "../../Common/LineBatch";
 
 export class GraphicParams extends SpriteParams {
     w: number | undefined ;
@@ -16,9 +17,11 @@ export default class Graphic extends Sprite {
     public w: number = 0;
     public h: number = 0;
 
-    public texture: ElementHandle;
+    public texture: ElementHandle | null = null;
+    public gridLines: LineBatch | null = null;
 
-    constructor(params: GraphicParams, texture: ElementHandle)
+
+    constructor(params: GraphicParams, texture: ElementHandle | null)
     {
         super(params);
 
@@ -49,7 +52,9 @@ export default class Graphic extends Sprite {
     public override clear(){
         if (this.texture) {
             this.texture.release();
+            this.texture = null;
+        } else {
+            console.warn('[Background.clear] Clearing background although no texture was ever set');
         }
     };
-
 }

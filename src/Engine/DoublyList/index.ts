@@ -1,8 +1,6 @@
 /**
  * DOUBLY LIST Class
  *
- * @author Brice Chevalier
- *
  * @desc Doubly list data structure
  *
  * Method      Time Complexity
@@ -246,7 +244,7 @@ export default class DoublyList {
     };
 }
 
-class ListNode {
+export class ListNode {
     public object: any;
     public previous: ListNode | null;
     public next: ListNode| null;

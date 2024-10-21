@@ -1,10 +1,10 @@
 import OrderedList from "../../Engine/OrderedList";
-import Sprite from "../../Engine/Sprite";
 import WebGLRenderer from "../../Engine/WebGLRenderer";
 import IList from "../../Engine/OrderedList/IList.ts";
 import RenderTarget from "../../Engine/WebGLRenderer/RenderTarget.ts";
 import {Program} from "../../Engine/WebGLRenderer/Program.ts";
 import Camera from "../../Engine/Camera";
+import Sprite from "../Sprite";
 
 /** Compare function used to sort elements relatively to their z-index (position) and layers on the scene */
 function cmpPosition(a: Sprite, b: Sprite) {
@@ -710,7 +710,10 @@ export default class Scene {
      * @param {String} filtering       - filtering used when displaying the texture
      * @param {String} cachingStrategy - caching strategy
      */
-    public createTexture(image: HTMLImageElement, textureId: string, filtering: string, cachingStrategy: string) {
+    public createTexture(image: HTMLImageElement,
+                         textureId: string | undefined = undefined,
+                         filtering: string | undefined = undefined,
+                         cachingStrategy: string | undefined = undefined)  {
         return this.renderer.createTexture(image, textureId, filtering, cachingStrategy);
     };
 

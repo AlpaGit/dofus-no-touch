@@ -23,9 +23,9 @@ import Constants from "../../Common/Constants";
 import SuperFastMemoryPartitioner from "../SuperFastMemoryPartitioner";
 import Cache3State from "../Cache3State";
 import {ElementHandle} from "../Cache3State/ElementHandle.ts";
-import AtlasSprite from "../AtlasAnimationTemplate/AtlasSprite.ts";
 import SubBatchData from "./SubBatchData.ts";
 import BatchData from "./BatchData.ts";
+import AtlasSprite from "../../Common/AtlasAnimationTemplate/AtlasSprite.ts";
 
 export default class WebGLRenderer {
     public canvas: HTMLCanvasElement;
@@ -742,7 +742,7 @@ export default class WebGLRenderer {
         return this.textureCache.useElement(textureId);
     };
 
-    public createTexture(imageData: TexImageSource & { width: number, height: number}, textureId: string | null, filtering:string, type: string) : ElementHandle {
+    public createTexture(imageData: TexImageSource & { width: number, height: number}, textureId: string | undefined, filtering: string | undefined, type: string | undefined) : ElementHandle {
         textureId = textureId || "null";
 
         let textureHandle = this.textureCache.holdElement(textureId);
@@ -1333,7 +1333,8 @@ export default class WebGLRenderer {
                 alpha: transparent,
                 depth: false,
                 stencil: false,
-                antialias: false
+                antialias: false,
+                powerPreference: 'high-performance'
             };
 
             gl = canvas.getContext('webgl', contextOptions) || canvas.getContext('experimental-webgl', contextOptions);

@@ -3,8 +3,10 @@ import Constants from "../../Common/Constants";
 //import Color from "../../Common/Colors/Color.ts";
 import EventEmitter from "events";
 import Scene from "../../Common/Scene";
-import Graphic from "../Graphic/Graphic.ts";
 import SpriteBatch from "../../Common/SpriteBatch";
+import Background from "../../Common/Background";
+import Graphic from "../Graphic";
+import MapRequest, {MapData} from "./MapRequest.ts";
 
 /*const HIGHLIGHT_DEFAULT_FILL: Color   = { r: 255, g: 0, b: 0, a: 0.75 };
 const HIGHLIGHT_DEFAULT_STROKE: Color = { r: 0,   g: 0, b: 0, a: 1 };
@@ -94,9 +96,10 @@ function createTacticBlockImage() {
  * @class MapRenderer
  */
 export default class MapRenderer extends EventEmitter {
-    public mapId: number;
+    public mapId: number | null;
     public mapScene: Scene;
-    public mapGrid: MapGrid;
+    public grid: MapGrid;
+    public background: Background;
 
     public graphics: SpriteBatch[] = [];
     public tacticGraphics: Graphic[] = [];
@@ -112,13 +115,15 @@ export default class MapRenderer extends EventEmitter {
     public isReady: boolean;
     public isFightMode: boolean;
 
-    //map:
-    constructor(mapScene: Scene) {
+    public map: MapData | null = null;
+
+    constructor(mapScene: Scene, background: Background) {
         super();
 
         this.mapId = 0;
         this.mapScene = mapScene;
-        this.mapGrid = new MapGrid();
+        this.grid = new MapGrid();
+        this.background = background;
 
         this.graphics       = [];
         this.tacticGraphics = [];
@@ -135,5 +140,97 @@ export default class MapRenderer extends EventEmitter {
         this.isReady     = false;
         this.isFightMode = false;
     }
+
+    public initialize() {
+        // TODO: Implement this method
+        //tapFeedback.initialize();
+    };
+
+    /** setMap
+     * @param mapRequest
+     * @param cb
+     */
+    public setMap(mapRequest: MapRequest, cb: Function) {
+        let mapData = mapRequest.mapData;
+        this.map   = mapData;
+        this.mapId = mapData.id;
+
+        this.grid.initialize(mapData.cells, !this.isFightMode);
+        this.loadMap(mapRequest, cb);
+    };
+
+    /** Prepare the assets to display map layer
+     *
+     * @param _mapRequest
+     * @param cb
+     */
+    public loadMap(_mapRequest: MapRequest, cb: Function) {
+        // TODO: Implement this method
+
+        cb();
+    }
+
+    /** Remove reference to map and assets to be garbage collected
+     *  while we load assets of the next map.
+     *
+     * @param {number} newMapId - new map id
+     */
+    public releaseMap(newMapId: number) {
+        if (newMapId === this.mapId) {
+            // Map remains unchanged
+            return;
+        }
+
+        this.mapScene.clean();
+
+        this.isReady = false;
+
+        this.graphics            = [];
+        this.tacticGraphics      = [];
+        this.statedElements      = [];
+        this.interactiveElements = {};
+        this.identifiedElements  = {};
+        this.objects             = {};
+        this.animatedElements    = [];
+        this.mapId               = null;
+        this.map                 = null;
+    };
+
+    /** Stop animation of animated elements on the map */
+    public stopAnimatedElements() {
+        let animatedElements = this.animatedElements;
+        for (let i = 0; i < animatedElements.length; i++) {
+            animatedElements[i].stop();
+        }
+    };
+
+    /** Start animation of all animated elements on the map */
+    public startAnimatedElements() {
+        let animatedElements = this.animatedElements;
+        for (let i = 0; i < animatedElements.length; i++) {
+            animatedElements[i].animate();
+        }
+    };
+
+    /** Return if players can walk on cell with specified id
+     *
+     * @param {number}  cellId      - a cell id, integer in the range [0..559]
+     * @param {boolean} isFightMode - if set, check that flag 3 (nonWalkableDuringFight) is not set
+     * @return {boolean} true if the cell is walkable, false otherwise
+     */
+    public isWalkable(cellId: number, isFightMode: boolean) {
+        let mask = isFightMode ? 5 : 1;
+        return (this.map!.cells[cellId].l & mask) === 1;
+    };
+
+    /** Get cell id from coordinates in scene.
+     *
+     * @param  {number} x - Scene x coordinate in pixel
+     * @param  {number} y - Scene y coordinate in pixel
+     * @return {number} cellId - Cell id, a number between 0 and 559.
+     */
+    public getCellId(x: number, y: number) {
+        return this.grid.getCellAtSceneCoordinate({ x: x, y: y });
+    };
 
 }
