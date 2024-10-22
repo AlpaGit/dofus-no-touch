@@ -13,7 +13,12 @@ This client will be cross-platforms such as (in order of development priority):
 ## Performance : 
 Performance will be kept in mind during the development of this project,  
 If we can achieve to have something that work smoothly on Web and Mobile the performance are gonna be way higher on Desktop  
-The project is in **TypeScript** but if needed some critical performances parts can be rewritten in **WebAssembly**. 
+The project is in **TypeScript** but if needed some critical performances parts can be rewritten in **WebAssembly**  
 
 ## Assets :
-The assets will not be taken from Dofus Touch, out own tools are under creation to convert Dofus 2 and Unity files to a format compatible with this project.
+The assets will not be taken from Dofus Touch, out own tools are under creation to convert Dofus 2 and Unity files to a format compatible with this project  
+
+## Dofus Unity ? :
+I strongly believe that Unity is a way too powerful engine to be used in such a light game as Dofus (it's just a canvas with some images moving and shaders) and because of the Unity boilerplait it causes it to use way more RAM / Performance than it should.  
+
+This project is from an alternative universe where Ankama decided to work on Dofus 3 with the of Dofus Touch technology instead of recreating a new game
