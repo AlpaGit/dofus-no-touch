@@ -3,8 +3,8 @@ import GridData from "./GridData.ts";
 import MapCoordinate from "./MapCoordinate.ts";
 import Vector2D from "../../Common/Vectors/Vector2D.ts";
 import ClosestCellData from "./ClosestCellData.ts";
-import CellData from "./CellData.ts";
 import MapPoint from "../../Common/MapPoint";
+import MapCellData from "../Assets/Maps/MapCellData.ts";
 
 //var mapPoint = require('mapPoint');
 
@@ -32,7 +32,7 @@ export class MapGrid {
     grid: GridData[][] = [];
     scenePositions: {x :number, y: number}[] = [];
     useAltitude: boolean = false;
-    cellList: CellData[] = [];
+    cellList: MapCellData[] = [];
 
     getCoordinateGridFromCellId = function (cellId:number) : MapCoordinate {
         const row = cellId % N_CELLS_PER_ROW - ~~(cellId / N_CELLS_PER_ROW2);
@@ -206,8 +206,8 @@ export class MapGrid {
         return closestCell; // will be null if validNeighbours is empty
     };
 
-    updateCellState(cellId: number, cell: CellData, previousState: number) {
-        const newState = cell.l;
+    updateCellState(cellId: number, cell: MapCellData, previousState: number) {
+        const newState = cell.data;
         if ((newState & 1) === 0) {
             // Shouldn't be accessible
             if ((previousState & 1) !== 0) {
@@ -225,10 +225,10 @@ export class MapGrid {
         }
     };
 
-    _removeCell(cellId: number, cell: CellData) {
+    _removeCell(cellId: number, cell: MapCellData) {
         delete this.scenePositions[cellId];
 
-        const height = this.useAltitude && cell.f || 0;
+        const height = this.useAltitude && cell.floor || 0;
         const gridPos = this.getCoordinateGridFromCellId(cellId);
         if (height === 0) {
             // Cell appears only in one slot in the grid
@@ -263,14 +263,14 @@ export class MapGrid {
         }
     };
 
-    _addCell(cellId: number, cell: CellData) {
+    _addCell(cellId: number, cell: MapCellData) {
         /* jslint maxstatements: 60 */
         let gridData;
 
         const gridPos = this.getCoordinateGridFromCellId(cellId);
         this.grid[gridPos.i][gridPos.j].cellId = cellId;
 
-        const height = this.useAltitude && cell.f || 0;
+        const height = this.useAltitude && cell.floor || 0;
         const scenePos = this.getCoordinateSceneFromGrid(gridPos);
         scenePos.y -= height;
         this.scenePositions[cellId] = scenePos;
@@ -341,7 +341,7 @@ export class MapGrid {
      * @param {Array} cellList - List of cells and their heights
      * @param {boolean} useAltitude - Should grid use cell altitude (grid is flatten during fight).
      */
-    initialize(cellList: CellData[], useAltitude: boolean) {
+    initialize(cellList: MapCellData[], useAltitude: boolean) {
         console.log('MapGrid.initialize');
 
         this.cellList = cellList;
@@ -361,7 +361,7 @@ export class MapGrid {
 
         for (let cellId = cellList.length - 1; cellId >= 0; cellId -= 1) {
             const cell = cellList[cellId];
-            if ((cell.l & 1) === 0) {
+            if (!cell.mov) {
                 // Ignoring unwalkable cells (bit 1 set to 0)
                 continue;
             }

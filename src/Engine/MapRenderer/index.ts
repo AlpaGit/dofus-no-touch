@@ -167,7 +167,6 @@ export default class MapRenderer extends EventEmitter {
      */
     public loadMap(_mapRequest: MapRequest, cb: Function) {
         // TODO: Implement this method
-
         cb();
     }
 
@@ -220,8 +219,11 @@ export default class MapRenderer extends EventEmitter {
      * @return {boolean} true if the cell is walkable, false otherwise
      */
     public isWalkable(cellId: number, isFightMode: boolean) {
-        let mask = isFightMode ? 5 : 1;
-        return (this.map!.cells[cellId].l & mask) === 1;
+        //let mask = isFightMode ? 5 : 1;
+        if(isFightMode)
+            return !this.map!.cells[cellId].nonWalkableDuringRP || !this.map!.cells[cellId].nonWalkableDuringFight;
+
+        return !this.map!.cells[cellId].nonWalkableDuringRP && this.map!.cells[cellId].mov;
     };
 
     /** Get cell id from coordinates in scene.
@@ -249,7 +251,7 @@ export default class MapRenderer extends EventEmitter {
 
         let cells = this.map.cells;
         for (let cellId = 0; cellId < Constants.NB_CELLS; cellId++) {
-            if (cells[cellId].l & 7) {
+            if (cells[cellId].los) {
                 // Not a block cell
                 continue;
             }
@@ -260,7 +262,7 @@ export default class MapRenderer extends EventEmitter {
                     position: cellId,
                     hue: [1, 1, 1, 1],
                     x: coord.x - BLOCK_TEXTURE_WIDTH / 2,
-                    y: coord.y - CELL_HEIGHT,
+                    y: coord.y - CELL_HEIGHT - 2,
                     g: 1,
                     w: BLOCK_TEXTURE_WIDTH,
                     h: BLOCK_TEXTURE_HEIGHT,

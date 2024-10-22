@@ -4,9 +4,8 @@ import Engine from "./Engine/Engine.ts";
 import Gui from "./Engine/Gui/Gui.ts";
 import Foreground from "./Common/Foreground";
 import Dimensions from "./Common/DimensionsHelper";
-import MapRequest from "./Engine/MapRenderer/MapRequest.ts";
-import CellData from "./Engine/MapRenderer/CellData.ts";
-import Constants from "./Common/Constants";
+import MapRequest, {MapData} from "./Engine/MapRenderer/MapRequest.ts";
+import MapLoader from "./Engine/Assets/Maps/MapLoader.ts";
 
 export function Start(){
 	let dofusBody = document.createElement('div');
@@ -23,27 +22,16 @@ export function Start(){
 	Engine.foreground = new Foreground();
 
 	Engine.isoEngine.updateDimensions(Dimensions);
-	let cells: CellData[] = [];
-	for (let i = 0; i < Constants.NB_CELLS; i++) {
-		let cellData = new CellData();
-		cellData.l = 1;
-
-		if(i % 10 === 0){
-			cellData.l = 16;
-		}
-		cells.push(cellData);
-	}
-
 	Engine.isoEngine.initialize()
-	Engine.isoEngine.mapRenderer.setMap(new MapRequest({},
-		{
-			id: 0,
-			cells: cells
-		}), () => { });
-	// Engine.isoEngine.mapScene.toggleDebugMode();
-	Engine.background.changeGameContext(false);
-	Engine.background.toggleGrid(true);
-	Engine.isoEngine.mapRenderer.enableTacticMode();
-	// Create the renderer
+
+	MapLoader.loadMap(191105026, (map: MapData) => {
+		Engine.isoEngine.mapRenderer.setMap(new MapRequest({}, map), () => { });
+		Engine.background.changeGameContext(false);
+		Engine.background.toggleGrid(true);
+		Engine.isoEngine.mapRenderer.enableTacticMode();
+
+		// Engine.isoEngine.mapScene.toggleDebugMode();
+	});
+
 
 }

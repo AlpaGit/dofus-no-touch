@@ -180,7 +180,7 @@ export default class Background extends Graphic{
             let cell = cells[cellId];
             let coord = Atouin.getCellCoords()[cellId];
 
-            let altitude = (showAltitude && cell.f || 0) + GRID_ALTITUDE_OFFSET;
+            let altitude = (showAltitude && cell.floor || 0) + GRID_ALTITUDE_OFFSET;
             let x0 = coord.x;
             let x1 = x0 - CELL_HALF_WIDTH;
             let x2 = x0 + CELL_HALF_WIDTH;
@@ -319,6 +319,7 @@ export default class Background extends Graphic{
                 w: Constants.MAP_SCENE_WIDTH,
                 h: Constants.MAP_SCENE_HEIGHT,
                 id: 'cellIdOverlay',
+                g: undefined,
                 alpha: undefined,
                 sx: undefined,
                 sy: undefined,
