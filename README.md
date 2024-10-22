@@ -19,7 +19,7 @@ The project is in **TypeScript** but if needed some critical performances parts 
 The assets will not be taken from Dofus Touch, out own tools are under creation to convert Dofus 2 and Unity files to a format compatible with this project  
 
 ## TODO (things will get deleted):
-- [ ] Create a DLM reader and display any tactical map
+- [x] Create a DLM reader and display any tactical map
 - [ ] Display a real map
 - [ ] 16/9, Dofus touch was in 4/3, we don't want a real 16/9 but like Dofus 2 is doing it (resizable to 4/3) 
 - [ ] Convert the WebGLRenderer code to WebGPU (we want to use the modern API so we have to change that, also convert the shaders to wgsl
