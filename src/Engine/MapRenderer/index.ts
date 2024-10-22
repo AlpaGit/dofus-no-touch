@@ -139,6 +139,7 @@ export default class MapRenderer extends EventEmitter {
 
         this.isReady     = false;
         this.isFightMode = false;
+
     }
 
     public initialize() {

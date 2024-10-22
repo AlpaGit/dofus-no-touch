@@ -236,10 +236,12 @@ export default class Scene {
             this.renderingProgram = this.renderer._programFiltering;
             this.renderingParams = { ratio: 0.15, resolution: 250.0 };
 
+            console.log("Use precision rendering for scene", this.name);
             this.refresh = this._refreshPrecisionRendering;
             this.render  = this._compositePrecisionRendering;
             this.clear   = this._clearPrecisionRendering;
         } else {
+            console.log("Use regular rendering for scene", this.name);
             this.refresh = this._refresh;
             this.render  = this._composite;
             this.clear   = this._clear;
@@ -261,6 +263,8 @@ export default class Scene {
             }
             this.updateList.length = 0;
         }
+
+        //console.log("Areas to refresh", this.areasToRefresh);
 
         if (this.areasToRefresh.length !== 0) {
             // Scene needs to be refreshed

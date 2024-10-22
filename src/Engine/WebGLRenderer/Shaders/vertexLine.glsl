@@ -1,5 +1,6 @@
 attribute vec2 aPosition;
 attribute vec4 aColorMul;
+attribute vec4 aColorAdd;
 
 uniform   mat4 uMatrix;
 varying   vec4 vColor;

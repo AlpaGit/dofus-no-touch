@@ -160,7 +160,10 @@ export default class Background extends Graphic{
         }
 
         let mapRenderer = Engine.isoEngine.mapRenderer;
-        if (!mapRenderer.map || !mapRenderer.map.cells) { return; }
+        if (!mapRenderer.map || !mapRenderer.map.cells) {
+            console.warn('Map not loaded yet');
+            return;
+        }
 
         // Update line batch for grid lines
         let cells = mapRenderer.map.cells;
@@ -297,6 +300,8 @@ export default class Background extends Graphic{
             this.cellIdOverlay!.clear();
             this.cellIdOverlay!.generateOverlay();
         }
+
+        console.log(this.gridLines);
     };
 
     public setGridColor(color: number[]) {

@@ -2,7 +2,7 @@ import Constants from '../Constants'
 
 // in px, max thickness of sidebar
 const MAX_SIDEBAR_NARROW = 175;
-const MAX_SIDEBAR_WIDE = 210;
+// const MAX_SIDEBAR_WIDE = 210;
 
 /**
  * Most common dimensions are: (all in px)
@@ -62,6 +62,8 @@ export class DimensionsHelper {
 
         this.sideBarWidth = this.screenWidth - this.mapWidth;
         this.bottomBarHeight = this.screenHeight - this.mapHeight;
+
+        // console.log('mapWidth', this.mapWidth, 'mapHeight', this.mapHeight, 'zoom', this.zoom, 'sideBarWidth', this.sideBarWidth, 'bottomBarHeight', this.bottomBarHeight);
     }
     // NB: To decide if we are "fighting", we use the "real" flag, to avoid too much map resizing.
     // If this resize operation was triggered by option change or toolbar edit, we can leave the
@@ -114,7 +116,7 @@ export class DimensionsHelper {
         const mapHeight = ~~(Constants.MAP_SCENE_HEIGHT * zoom);
 
         this.computeMapSize(Math.min(mapHeight, this.screenHeight));
-        this.sideBarWidth = Math.min(this.sideBarWidth, MAX_SIDEBAR_WIDE);
+        this.sideBarWidth = this.sideBarWidth / 2;
 
         this.mapLeft = this.screenWidth - this.sideBarWidth - this.mapWidth;
         this.mapTop = Math.round(this.bottomBarHeight / 2);

@@ -25,6 +25,7 @@ export default class GridFeedbackOverlay extends Sprite {
     private _vertexBuffer: ArrayBuffer = new ArrayBuffer(0);
 
     constructor() {
+        console.log('GridFeedbackOverlay constructor', Engine.isoEngine);
         const params = new SpriteParams('gridFeedbackOverlay', Engine.isoEngine.mapScene);
         params.position = 1;
         params.hue = [0.0, 0.0, 0.0, 0.0];

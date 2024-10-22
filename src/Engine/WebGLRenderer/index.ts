@@ -14,6 +14,7 @@ import fragmentOutline from './Shaders/fragmentOutline.glsl?raw'
 import fragmentPixelArt from './Shaders/fragmentPixelArt.glsl?raw'
 import fragmentRegular from './Shaders/fragmentRegular.glsl?raw'
 import vertexAbsoluteScale from './Shaders/vertexAbsoluteScale.glsl?raw'
+import vertexLine from './Shaders/vertexLine.glsl?raw'
 import vertexBox from './Shaders/vertexBox.glsl?raw'
 import vertexMask from './Shaders/vertexMask.glsl?raw'
 import vertexOutline from './Shaders/vertexOutline.glsl?raw'
@@ -190,7 +191,7 @@ export default class WebGLRenderer {
 
         let gl = this.gl;
         let shaderData = WebGLRenderer.shadersData[shaderId];
-
+        console.log(WebGLRenderer.shadersData, shaderId);
         let shader;
         if (shaderData.type === 'fragment') {
             shader = gl.createShader(gl.FRAGMENT_SHADER);
@@ -1302,6 +1303,10 @@ export default class WebGLRenderer {
         "vertexAbsoluteScale": {
             type: "vertex",
             script: vertexAbsoluteScale
+        },
+        "vertexLine": {
+            type: "vertex",
+            script: vertexLine
         },
         "vertexBox": {
             type: "vertex",

@@ -342,6 +342,8 @@ export class MapGrid {
      * @param {boolean} useAltitude - Should grid use cell altitude (grid is flatten during fight).
      */
     initialize(cellList: CellData[], useAltitude: boolean) {
+        console.log('MapGrid.initialize');
+
         this.cellList = cellList;
         this.useAltitude = useAltitude;
 
@@ -354,6 +356,8 @@ export class MapGrid {
                 row[j] = new GridData();
             }
         }
+
+        console.log('MapGrid.initialize: Adding cells to grid', cellList.length);
 
         for (let cellId = cellList.length - 1; cellId >= 0; cellId -= 1) {
             const cell = cellList[cellId];

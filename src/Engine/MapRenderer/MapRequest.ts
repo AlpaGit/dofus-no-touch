@@ -1,3 +1,5 @@
+import CellData from "./CellData.ts";
+
 export default class MapRequest{
     public msg: any;
     public mapData: MapData;
@@ -10,7 +12,7 @@ export default class MapRequest{
 
 export class MapData{
     public id: number;
-    public cells: any[] = [];
+    public cells: CellData[] = [];
 
     constructor(id: number){
         this.id = id;

@@ -26,7 +26,9 @@ export default class IsoEngine  extends EventEmitter {
 
     public isMovementWaitingForConfirmation: boolean;
     public endMovementCallback: Function | null;
-    public isMovementCanceled: boolean
+    public isMovementCanceled: boolean;
+
+    public isInGame: boolean = false;
 
     constructor() {
         super();
@@ -114,6 +116,8 @@ export default class IsoEngine  extends EventEmitter {
         AnimationController.start();
 
         this.mapScene.camera.setZoom(0); // Setting to smallest zoom level
+
+        this._activateMapScene();
         //this._initGridOverlayLayers();
     }
 
@@ -145,4 +149,19 @@ export default class IsoEngine  extends EventEmitter {
         this.mapScene.camera.setZoom(0); // Setting to smallest zoom level
         this.mapScene.requireCompleteRefresh();
     }
+
+    /** Activates the map scene for rendering
+     *
+     * @return {boolean} whether the method actually changed the activation state of the map scene
+     */
+    private _activateMapScene() {
+        if (!this.isInGame) {
+            AnimationController.addScene(this.mapScene);
+            //AnimationController.addScene(this.actorManager);
+            this.isInGame = true;
+            return true;
+        }
+
+        return false;
+    };
 }
