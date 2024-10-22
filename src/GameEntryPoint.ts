@@ -26,7 +26,11 @@ export function Start(){
 	let cells: CellData[] = [];
 	for (let i = 0; i < Constants.NB_CELLS; i++) {
 		let cellData = new CellData();
-		cellData.l = 11;
+		cellData.l = 1;
+
+		if(i % 10 === 0){
+			cellData.l = 16;
+		}
 		cells.push(cellData);
 	}
 
@@ -36,9 +40,10 @@ export function Start(){
 			id: 0,
 			cells: cells
 		}), () => { });
+	// Engine.isoEngine.mapScene.toggleDebugMode();
 	Engine.background.changeGameContext(false);
 	Engine.background.toggleGrid(true);
-	Engine.background.toggleDebugMode();
+	Engine.isoEngine.mapRenderer.enableTacticMode();
 	// Create the renderer
 
 }

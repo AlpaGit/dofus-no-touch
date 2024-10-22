@@ -1,6 +1,6 @@
 import Constants from "../../Common/Constants";
-import MapPoint from "../MapPoint";
-import Line from "../Line";
+import MapPoint from "../../Common/MapPoint";
+import Line from "../../Common/Line";
 
 const GRID_ALTITUDE_OFFSET = Constants.GRID_ALTITUDE_OFFSET;
 const CELL_WIDTH           = Constants.CELL_WIDTH;

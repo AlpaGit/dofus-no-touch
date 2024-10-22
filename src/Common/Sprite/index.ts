@@ -1,10 +1,9 @@
 import SpriteAbstract from "../SpriteAbstract";
 import SpriteParams from "../SpriteAbstract/SpriteParams.ts";
 import Scene from "../../Common/Scene";
-import WebGLRenderer from "../WebGLRenderer";
-import IList from "../OrderedList/IList.ts";
-import {ElementHandle} from "../Cache3State/ElementHandle.ts";
-
+import WebGLRenderer from "../../Engine/WebGLRenderer";
+import IList from "../../Engine/OrderedList/IList.ts";
+import {ElementHandle} from "../../Engine/Cache3State/ElementHandle.ts";
 
 
 /**
@@ -28,6 +27,9 @@ export default class Sprite extends SpriteAbstract {
     private _layer: number;
     protected _x: number;
     protected _y: number;
+
+    public w: number = 0;
+    public h: number = 0;
 
     protected _scaleX: number;
     protected _scaleY: number;
@@ -300,7 +302,7 @@ export default class Sprite extends SpriteAbstract {
         ctx.fillStyle = '#FF0000';
         ctx.fillRect(0, 0, Sprite.PLACEHOLDER_DIM, Sprite.PLACEHOLDER_DIM);
 
-        Sprite.PLACEHOLDER_TEXTURE = renderer.createTexture(canvas, null, 'nearest', 'permanent');
+        Sprite.PLACEHOLDER_TEXTURE = renderer.createTexture(canvas, undefined, 'nearest', 'permanent');
         return Sprite.PLACEHOLDER_TEXTURE;
     }
 

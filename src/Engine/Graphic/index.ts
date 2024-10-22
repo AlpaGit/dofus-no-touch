@@ -6,6 +6,7 @@ import LineBatch from "../../Common/LineBatch";
 export class GraphicParams extends SpriteParams {
     w: number | undefined ;
     h: number | undefined;
+    g: number | undefined;
 }
 
 /** @class Graphic

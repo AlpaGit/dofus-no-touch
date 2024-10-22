@@ -3,10 +3,10 @@ import Constants from "../../Common/Constants";
 //import Color from "../../Common/Colors/Color.ts";
 import EventEmitter from "events";
 import Scene from "../../Common/Scene";
-import SpriteBatch from "../../Common/SpriteBatch";
 import Background from "../../Common/Background";
 import Graphic from "../Graphic";
 import MapRequest, {MapData} from "./MapRequest.ts";
+import Atouin from "../Atouin";
 
 /*const HIGHLIGHT_DEFAULT_FILL: Color   = { r: 255, g: 0, b: 0, a: 0.75 };
 const HIGHLIGHT_DEFAULT_STROKE: Color = { r: 0,   g: 0, b: 0, a: 1 };
@@ -42,11 +42,11 @@ const DROPPED_OBJECT_OFFSET_Y = -Constants.CELL_HEIGHT / 4;*/
 //const NB_CELLS     = Constants.NB_CELLS;
 const CELL_HEIGHT  = Constants.CELL_HEIGHT;
 
-//const BLOCK_PADDING = 2;
+const BLOCK_PADDING = 2;
 const BLOCK_WIDTH   = Constants.CELL_WIDTH;
 const BLOCK_HEIGHT  = Math.round(CELL_HEIGHT * 1.5);
-//const BLOCK_TEXTURE_WIDTH  = BLOCK_WIDTH  + BLOCK_PADDING;
-//const BLOCK_TEXTURE_HEIGHT = BLOCK_HEIGHT + BLOCK_PADDING;
+const BLOCK_TEXTURE_WIDTH  = BLOCK_WIDTH  + BLOCK_PADDING;
+const BLOCK_TEXTURE_HEIGHT = BLOCK_HEIGHT + BLOCK_PADDING;
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 function createTacticBlockImage() {
@@ -101,7 +101,7 @@ export default class MapRenderer extends EventEmitter {
     public grid: MapGrid;
     public background: Background;
 
-    public graphics: SpriteBatch[] = [];
+    public graphics: Graphic[] = [];
     public tacticGraphics: Graphic[] = [];
     public statedElements = [];
 
@@ -232,6 +232,68 @@ export default class MapRenderer extends EventEmitter {
      */
     public getCellId(x: number, y: number) {
         return this.grid.getCellAtSceneCoordinate({ x: x, y: y });
+    };
+
+    /** Toggle tactic mode */
+    public enableTacticMode() {
+        this.hideGraphics(this.graphics);
+        this.hideGraphics(this.statedElements);
+
+        // map is not ready yet (e.g. reconnection in fight)
+        if (!this.map || !this.map.cells) {
+            this.once('ready', this.enableTacticMode);
+            return;
+        }
+
+        this.tacticGraphics = [];
+
+        let cells = this.map.cells;
+        for (let cellId = 0; cellId < Constants.NB_CELLS; cellId++) {
+            if (cells[cellId].l & 7) {
+                // Not a block cell
+                continue;
+            }
+
+            let coord = Atouin.getCellCoords()[cellId];
+            this.tacticGraphics.push(new Graphic(
+                {
+                    position: cellId,
+                    hue: [1, 1, 1, 1],
+                    x: coord.x - BLOCK_TEXTURE_WIDTH / 2,
+                    y: coord.y - CELL_HEIGHT,
+                    g: 1,
+                    w: BLOCK_TEXTURE_WIDTH,
+                    h: BLOCK_TEXTURE_HEIGHT,
+                    scene: this.mapScene,
+                    id: 'tacticBlock_' + cellId,
+                    isHudElement: false,
+                    alpha: undefined,
+                    layer: undefined,
+                    rotation: undefined,
+                    sx: undefined,
+                    sy: undefined
+                },
+                this.textureTacticBlock
+            ));
+        }
+
+        this.showGraphics(this.tacticGraphics);
+        this.background.toggleTacticMode(true);
+    };
+
+    /** Hide all graphics in the display list */
+    public hideGraphics(graphics: Graphic[]) {
+        for (let i = 0; i < graphics.length; i++) {
+            graphics[i].hide();
+        }
+    };
+
+//▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+    /** Show all graphics in the display list */
+    public showGraphics(graphics: Graphic[]) {
+        for (let i = 0; i < graphics.length; i++) {
+            graphics[i].show();
+        }
     };
 
 }

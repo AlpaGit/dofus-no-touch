@@ -62,7 +62,7 @@ export default class AnimationController {
             if (isDifferentFrame) {
                 self.previousUpdate = now - (dt % FRAME_INTERVAL);
                 dt /= FRAME_INTERVAL;
-                
+
                 let scenes = self.gameScenes;
                 for (let s = 0; s < scenes.length; s += 1) {
                     scenes[s].refresh(dt);

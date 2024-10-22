@@ -79,7 +79,7 @@ export default class Background extends Graphic{
         this.isFightMode = false;
     }
 
-    public clea() {
+    public clear() {
         if (this.texture) {
             this.texture.release();
             this.texture = null;

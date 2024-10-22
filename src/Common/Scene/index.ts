@@ -416,14 +416,13 @@ export default class Scene {
 
     private _renderDebug() {
         for (let spriteRef = this.displayList.first; spriteRef !== null; spriteRef = spriteRef.next) {
-            //let sprite = spriteRef.object;
-            //this.renderer.drawImage(this._textureDebug, sprite.x, sprite.y, sprite.w, sprite.h);
+            let sprite = spriteRef.object;
+            this.renderer.drawImage(this._textureDebug, sprite.x, sprite.y, sprite.w, sprite.h);
         }
     };
 
     /** Refresh the given areas on screen
      */
-
     private _refreshAreas() {
         // Start rendering into the scene texture
         this.renderer.startTextureRendering(

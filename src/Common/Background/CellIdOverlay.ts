@@ -20,7 +20,7 @@ export default class CellIdOverlay extends Graphic {
         this.indexText.width  = params.w!;
         this.indexText.height = params.h!;
         this.indexTextContext = this.indexText.getContext('2d')!;
-        this.indexTextContext.font = '20px Verdana';
+        this.indexTextContext.font = '12px Arial';
         this.indexTextContext.fillStyle = 'rgba(0,0,0,0.6)';
         this.indexTextContext.textAlign = 'center';
     }
@@ -52,7 +52,7 @@ export default class CellIdOverlay extends Graphic {
 
             let altitude = cell.f ? cell.f + GRID_ALTITUDE_OFFSET : GRID_ALTITUDE_OFFSET; // if it has alt, add it
             let x = coord.x;
-            let y = coord.y - altitude;
+            let y = coord.y - altitude - 3;
 
             if (colorCells && colorCells.indexOf(cellId) >= 0) {
                 let origFillStyle = this.indexTextContext.fillStyle;

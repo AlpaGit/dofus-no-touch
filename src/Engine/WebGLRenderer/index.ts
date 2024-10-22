@@ -764,6 +764,7 @@ export default class WebGLRenderer {
         gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
 
         // Loading the image onto the GPU
+        console.log(imageData);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, imageData);
 
         // Setting its filtering
@@ -1338,11 +1339,11 @@ export default class WebGLRenderer {
                 alpha: transparent,
                 depth: false,
                 stencil: false,
-                antialias: false,
+                antialias: true,
                 powerPreference: 'high-performance'
             };
 
-            gl = canvas.getContext('webgl', contextOptions) || canvas.getContext('experimental-webgl', contextOptions);
+            gl = canvas.getContext('webgl2', contextOptions) || canvas.getContext('experimental-webgl', contextOptions);
         } catch (err: any) {
             throw new Error('Could not initialise WebGL (' + err.message + ')');
         }

@@ -75,7 +75,7 @@ export default class IsoEngine  extends EventEmitter {
             prerenderQualityRatio:  Constants.PRERENDER_RATIO_MAP,
 
             adjustToCanvasRatio: true,
-            usePrecisionRendering: true
+            usePrecisionRendering: false
         });
 
         // Creation of the roleplay scene's background
