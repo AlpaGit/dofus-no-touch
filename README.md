@@ -1,5 +1,5 @@
 ## CURRENT STATE : Display a tactical map
-![Current State](https://i.imgur.com/iCBeRdn.png)
+![Current State](https://github.com/user-attachments/assets/16f42722-2b79-4ca2-9ca1-9f7fc72bdf13)
 
 ## Purpose :
 I'm trying to achieve what the Dofus Touch developpers did but in a more modern way,  
