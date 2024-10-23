@@ -2,11 +2,17 @@ import {ElementHandle} from "../Cache3State/ElementHandle.ts";
 import Sprite from "../../Common/Sprite";
 import SpriteParams from "../../Common/SpriteAbstract/SpriteParams.ts";
 import LineBatch from "../../Common/LineBatch";
+import Scene from "../../Common/Scene";
 
 export class GraphicParams extends SpriteParams {
     w: number | undefined ;
     h: number | undefined;
     g: number | undefined;
+
+    constructor(id: string, scene: Scene, params: Partial<GraphicParams> = {}) {
+        super(id, scene, params);
+        Object.assign(this, params);
+    }
 }
 
 /** @class Graphic

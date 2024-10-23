@@ -4,14 +4,12 @@ import {Buffer} from "buffer";
 const URL = "/assets/maps/";
 
 export default class MapLoader {
-    public static loadMap(mapId: number, cb: Function) {
-        fetch(URL + mapId + ".dlm")
-            .then(response => response.blob())
-            .then(blob => blob.arrayBuffer())
-            .then(arrayBuffer => MapData.fromRawBuffer(Buffer.from(arrayBuffer)))
-            .then(mapData => {
-                cb(mapData);
-                return mapData;
-            });
+    public static async loadMap(mapId: number) : Promise<MapData> {
+        const res = await fetch(URL + mapId + ".dlm");
+        const blob = await res.blob();
+        const arrayBuffer = await blob.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+
+        return MapData.fromRawBuffer(buffer);
     }
 }

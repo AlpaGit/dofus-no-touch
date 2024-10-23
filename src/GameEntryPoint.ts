@@ -4,15 +4,16 @@ import Engine from "./Engine/Engine.ts";
 import Gui from "./Engine/Gui/Gui.ts";
 import Foreground from "./Common/Foreground";
 import Dimensions from "./Common/DimensionsHelper";
-import MapRequest, {MapData} from "./Engine/MapRenderer/MapRequest.ts";
+import MapRequest from "./Engine/MapRenderer/MapRequest.ts";
 import MapLoader from "./Engine/Assets/Maps/MapLoader.ts";
+import TilesLoader from "./Engine/Assets/Tiles/TilesLoader.ts";
 
-export function Start(){
+export async function Start() {
 	let dofusBody = document.createElement('div');
 	dofusBody.id = 'dofusBody';
 	document.body.appendChild(dofusBody);
 
-	if(!WebGLRenderer.isWebGlSupported()){
+	if (!WebGLRenderer.isWebGlSupported()) {
 		document.getElementById('dofusBody')!.innerHTML = 'WebGL is not supported on your browser';
 		return;
 	}
@@ -24,14 +25,14 @@ export function Start(){
 	Engine.isoEngine.updateDimensions(Dimensions);
 	Engine.isoEngine.initialize()
 
-	MapLoader.loadMap(191105026, (map: MapData) => {
-		Engine.isoEngine.mapRenderer.setMap(new MapRequest({}, map), () => { });
-		Engine.background.changeGameContext(false);
-		Engine.background.toggleGrid(true);
-		Engine.isoEngine.mapRenderer.enableTacticMode();
+	await TilesLoader.initialize();
 
-		// Engine.isoEngine.mapScene.toggleDebugMode();
-	});
+	const map = await MapLoader.loadMap(191105026);
+	// load every assets
+	await Engine.isoEngine.mapRenderer.setMap(new MapRequest({}, map));
+	Engine.background.changeGameContext(false);
+	Engine.background.toggleGrid(true);
+	Engine.isoEngine.mapRenderer.enableTacticMode();
 
-
+	// Engine.isoEngine.mapScene.toggleDebugMode();
 }

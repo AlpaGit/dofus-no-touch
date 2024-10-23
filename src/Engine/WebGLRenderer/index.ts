@@ -907,7 +907,7 @@ export default class WebGLRenderer {
         this.updateGPUBuffer(startingByte, vertexBuffer);
     };
 
-    public updateVertexBuffer(batchId: string, vertexBuffer: ArrayBuffer, byteOffset: number, _byteSize: number) {
+    public updateVertexBuffer(batchId: string, vertexBuffer: ArrayBuffer, byteOffset: number, _byteSize: number = 0) {
         let reservedChunk = this.sfmPartitioner.getChunk(batchId);
         if (reservedChunk === undefined) {
             console.warn('[WebGLRenderer.updateVertexBuffer] No buffer loaded for', batchId);
@@ -1343,7 +1343,7 @@ export default class WebGLRenderer {
                 powerPreference: 'high-performance'
             };
 
-            gl = canvas.getContext('webgl2', contextOptions) || canvas.getContext('experimental-webgl', contextOptions);
+            gl = canvas.getContext('webgl', contextOptions) || canvas.getContext('experimental-webgl', contextOptions);
         } catch (err: any) {
             throw new Error('Could not initialise WebGL (' + err.message + ')');
         }

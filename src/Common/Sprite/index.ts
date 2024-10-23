@@ -53,6 +53,7 @@ export default class Sprite extends SpriteAbstract {
         this._spriteRef = null;
 
         this.isDisplayed = false;
+        this.holdsStatics = params.holdsStatics || false;
 
         // Whether the sprite is white-listed for removal
         this.isWhiteListed = false;
@@ -307,7 +308,7 @@ export default class Sprite extends SpriteAbstract {
     }
 
     // Methods that will be overridden by the animation manager
-    public draw(_renderer: WebGLRenderer, _a:any) {
+    public draw(_renderer: any, _a:any) {
         /*if (window.isoEngine.debug) {
             this.renderer.drawImage(
                 Sprite.PLACEHOLDER_TEXTURE || Sprite.initTexture(this.renderer),

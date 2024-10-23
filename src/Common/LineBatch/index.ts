@@ -2,15 +2,18 @@ import Line from "../Line";
 import Sprite from "../Sprite";
 import SpriteParams from "../SpriteAbstract/SpriteParams.ts";
 import Constants from "../../Common/Constants";
+import Scene from "../Scene";
 
 export class LineBatchParams extends  SpriteParams{
     public lines: Line[];
     public lineWidth: number;
 
-    constructor(id: string, scene: any){
-        super(id, scene);
+    constructor(id: string, scene: Scene, params: Partial<LineBatchParams> = {}) {
+        super(id, scene, params);
         this.lines = [];
         this.lineWidth = 0;
+
+        Object.assign(this, params);
     }
 }
 

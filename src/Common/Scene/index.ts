@@ -264,8 +264,6 @@ export default class Scene {
             this.updateList.length = 0;
         }
 
-        //console.log("Areas to refresh", this.areasToRefresh);
-
         if (this.areasToRefresh.length !== 0) {
             // Scene needs to be refreshed
             // Combining overlapping areas in O(n2) with n the number of areas to refresh
@@ -372,13 +370,14 @@ export default class Scene {
         let cameraMoved = this.camera.updatePosition(dt);
 
         // Updating sprite animations
-        if (this.updateList.length === 0 && cameraMoved === false) {
+        if (this.updateList.length === 0 && cameraMoved === false && this.areasToRefresh.length === 0) {
             // Nothing changed, no need to redraw the scene
             return;
         }
 
         this.renderer.clear();
         this._composite();
+        this.areasToRefresh.length = 0;
     };
 
     private _clear(r: number, g: number, b: number, a: number) {

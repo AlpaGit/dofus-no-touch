@@ -67,7 +67,7 @@ Constants.MAP_SCENE_HEIGHT = (Constants.CELL_HEIGHT * Constants.MAP_SCENE_HEIGHT
 // Prerendering ratio of texture dynamically created
 // TODO: use device performance to compute prerender ratio quality
 // i.e the lower the performance of the device the smaller the prerendering quality
-Constants.PRERENDER_RATIO_MAP = Constants.PIXEL_RATIO;
+Constants.PRERENDER_RATIO_MAP = 1;
 Constants.PRERENDER_RATIO_WORLDMAP          = Constants.PIXEL_RATIO;
 Constants.PRERENDER_RATIO_CHARACTER_DISPLAY = 2 * Constants.PIXEL_RATIO;
 

@@ -1,6 +1,6 @@
 import Zone from "../../Engine/Zone";
-import LineBatch from "../LineBatch";
-import BoxBatch from "../BoxBatch";
+import LineBatch, {LineBatchParams} from "../LineBatch";
+import BoxBatch, {BoxBatchParams} from "../BoxBatch";
 import Scene from "../Scene";
 import GridAnimator from "../../Engine/GridAnimator";
 import Graphic, {GraphicParams} from "../../Engine/Graphic";
@@ -32,8 +32,8 @@ const TOUCH_OFFSET = 10;
 export class BackgroundParams extends GraphicParams{
     public scene: Scene;
 
-    constructor(id: string, scene: Scene){
-        super(id, scene);
+    constructor(id: string, scene: Scene, params: Partial<BackgroundParams> = {}){
+        super(id, scene, params);
 
         this.scene = scene;
     }
@@ -225,8 +225,7 @@ export default class Background extends Graphic{
         if (this.tacticalBackground) { this.tacticalBackground.remove(); }
         if (this.tacticalBoxes) { this.tacticalBoxes.remove(); }
 
-        this.gridLines = new LineBatch({
-            scene: Engine.isoEngine.mapScene,
+        this.gridLines = new LineBatch(new LineBatchParams('combatGrid', Engine.isoEngine.mapScene, {
             x: 0,
             y: 0,
             position: 3,
@@ -234,13 +233,7 @@ export default class Background extends Graphic{
             lineWidth: 2,
             hue: COLOR_GRID_LINE,
             layer: MAP_LAYER_BACKGROUND,
-            id: 'combatGrid',
-            alpha: undefined,
-            sx: undefined,
-            sy: undefined,
-            rotation: undefined,
-            isHudElement: false
-        });
+        }));
 
         this.gridLines.alpha = 0.0;
 
@@ -251,7 +244,7 @@ export default class Background extends Graphic{
             new Tween(this.gridLines, ['alpha']).to({ alpha: 1.0 }, 20).start();
         }
 
-        this.tacticalBackground = new BoxBatch({
+        this.tacticalBackground = new BoxBatch(new BoxBatchParams('tacticalBackground', Engine.isoEngine.mapScene, {
             scene: Engine.isoEngine.mapScene,
             x: 0,
             y: 0,
@@ -267,14 +260,9 @@ export default class Background extends Graphic{
             hue: COLOR_TACTICAL_BACKGROUND,
             layer: MAP_LAYER_BACKGROUND,
             id: 'tacticalBackground',
-            alpha: undefined,
-            sx: undefined,
-            sy: undefined,
-            rotation: undefined,
-            isHudElement: false
-        });
+        }));
 
-        this.tacticalBoxes = new BoxBatch({
+        this.tacticalBoxes = new BoxBatch(new BoxBatchParams('tacticalBoxes', Engine.isoEngine.mapScene, {
             scene: Engine.isoEngine.mapScene,
             x: 0,
             y: 0,
@@ -283,12 +271,7 @@ export default class Background extends Graphic{
             hue: COLOR_TACTICAL_TILE,
             layer: MAP_LAYER_BACKGROUND,
             id: 'tacticalBoxes',
-            alpha: undefined,
-            sx: undefined,
-            sy: undefined,
-            rotation: undefined,
-            isHudElement: false
-        });
+        }));
 
         if (!this.tacticalMode) {
             this.tacticalBoxes.hide();
@@ -310,7 +293,7 @@ export default class Background extends Graphic{
 
     public initDebugOverlay() {
         if (!this.cellIdOverlay) {
-            let cellIdOverlayParams = {
+            let cellIdOverlayParams = new GraphicParams('cellIdOverlay', Engine.isoEngine.mapScene, {
                 scene: this.scene,
                 layer: Constants.MAP_LAYER_FOREGROUND,
                 position: 1,
@@ -319,14 +302,8 @@ export default class Background extends Graphic{
                 w: Constants.MAP_SCENE_WIDTH,
                 h: Constants.MAP_SCENE_HEIGHT,
                 id: 'cellIdOverlay',
-                g: undefined,
-                alpha: undefined,
-                sx: undefined,
-                sy: undefined,
-                rotation: undefined,
-                isHudElement: false,
-                hue: undefined
-            };
+            });
+
             this.cellIdOverlay = new CellIdOverlay(cellIdOverlayParams);
         }
     };

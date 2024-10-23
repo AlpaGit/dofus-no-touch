@@ -6,6 +6,7 @@ import BigEndianReader from "../Reader/BigEndianReader.ts";
 import {Buffer} from "buffer";
 // @ts-ignore
 import pako from 'pako';
+import {TileRequest} from "../Tiles/TilesLoader.ts";
 
 const DECRYPTION_KEY = "649ae451ca33ec53bbcbcc33becf15f4";
 
@@ -40,6 +41,38 @@ export default class MapData {
         this.version = version;
     }
 
+    public getAssets(layerId: number): TileRequest[] {
+        let assets = new Array<TileRequest>();
+
+        for (let i = 0; i < this.layers.length; i++) {
+            let layer = this.layers[i];
+
+            if(layer.id != layerId){
+                continue;
+            }
+
+            for (let j = 0; j < layer.cells.length; j++) {
+                let cell = layer.cells[j];
+
+                if(cell == null || cell.graphicalElements == null){
+                    continue;
+                }
+
+                for (let k = 0; k < cell.graphicalElements.length; k++) {
+                    let element = cell.graphicalElements[k];
+
+                    if(element == null){
+                        continue;
+                    }
+
+                    assets.push(new TileRequest(element));
+                }
+            }
+        }
+
+        return assets;
+    }
+
     public static fromRawBuffer(buffer: Buffer): MapData {
         let reader = new BigEndianReader(buffer);
         let header = reader.readByte();
@@ -61,6 +94,7 @@ export default class MapData {
 
         return MapData.fromRaw(reader);
     }
+
 
     public static fromRaw(reader: BigEndianReader): MapData{
         const version = reader.readByte();

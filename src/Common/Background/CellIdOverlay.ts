@@ -50,7 +50,7 @@ export default class CellIdOverlay extends Graphic {
             let cell = cells[cellId];
             let coord = Atouin.getCellCoords()[cellId];
 
-            let altitude = cell.f ? cell.f + GRID_ALTITUDE_OFFSET : GRID_ALTITUDE_OFFSET; // if it has alt, add it
+            let altitude = cell.floor ? cell.floor + GRID_ALTITUDE_OFFSET : GRID_ALTITUDE_OFFSET; // if it has alt, add it
             let x = coord.x;
             let y = coord.y - altitude - 3;
 

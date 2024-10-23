@@ -4,9 +4,14 @@ import Constants from "../../Common/Constants";
 import EventEmitter from "events";
 import Scene from "../../Common/Scene";
 import Background from "../../Common/Background";
-import Graphic from "../Graphic";
-import MapRequest, {MapData} from "./MapRequest.ts";
+import Graphic, {GraphicParams} from "../Graphic";
+import MapRequest from "./MapRequest.ts";
 import Atouin from "../Atouin";
+import MapData from "../Assets/Maps/MapData.ts";
+import TilesLoader, {TilesRequest} from "../Assets/Tiles/TilesLoader.ts";
+import SpriteBatch from "../../Common/SpriteBatch";
+import Color from "../../Common/Colors/Color.ts";
+import SpriteParams from "../../Common/SpriteAbstract/SpriteParams.ts";
 
 /*const HIGHLIGHT_DEFAULT_FILL: Color   = { r: 255, g: 0, b: 0, a: 0.75 };
 const HIGHLIGHT_DEFAULT_STROKE: Color = { r: 0,   g: 0, b: 0, a: 1 };
@@ -101,7 +106,7 @@ export default class MapRenderer extends EventEmitter {
     public grid: MapGrid;
     public background: Background;
 
-    public graphics: Graphic[] = [];
+    public graphics: SpriteBatch[] = [];
     public tacticGraphics: Graphic[] = [];
     public statedElements = [];
 
@@ -149,25 +154,45 @@ export default class MapRenderer extends EventEmitter {
 
     /** setMap
      * @param mapRequest
-     * @param cb
      */
-    public setMap(mapRequest: MapRequest, cb: Function) {
+    public async setMap(mapRequest: MapRequest) {
         let mapData = mapRequest.mapData;
         this.map   = mapData;
         this.mapId = mapData.id;
 
         this.grid.initialize(mapData.cells, !this.isFightMode);
-        this.loadMap(mapRequest, cb);
+        await this.loadMap(mapRequest);
     };
 
     /** Prepare the assets to display map layer
      *
-     * @param _mapRequest
-     * @param cb
+     * @param mapRequest
      */
-    public loadMap(_mapRequest: MapRequest, cb: Function) {
+    public async loadMap(mapRequest: MapRequest) {
         // TODO: Implement this method
-        cb();
+
+        const assets = mapRequest.mapData.getAssets(2);
+        await TilesLoader.load(new TilesRequest(assets));
+
+        let spriteBatch = new SpriteBatch(new SpriteParams('mapSceneStaticSprites' + this.mapId, this.mapScene, {holdsStatics: true}));
+
+        this.graphics.push(spriteBatch);
+
+        for(let i = 0; i < assets.length; i++) {
+            let asset = assets[i];
+
+            let hue = new Color();
+            hue.r = 1 + hue.r / 127;
+            hue.g = 1 + hue.g / 127;
+            hue.b = 1 + hue.b / 127;
+            hue.a = 1;
+
+            if(asset.error)
+                continue;
+
+        }
+        // Adding attributes to graphic elements for rendering purposes
+
     }
 
     /** Remove reference to map and assets to be garbage collected
@@ -257,7 +282,7 @@ export default class MapRenderer extends EventEmitter {
             }
 
             let coord = Atouin.getCellCoords()[cellId];
-            this.tacticGraphics.push(new Graphic(
+            this.tacticGraphics.push(new Graphic(new GraphicParams('tacticBlock_' + cellId,this.mapScene,
                 {
                     position: cellId,
                     hue: [1, 1, 1, 1],
@@ -266,15 +291,7 @@ export default class MapRenderer extends EventEmitter {
                     g: 1,
                     w: BLOCK_TEXTURE_WIDTH,
                     h: BLOCK_TEXTURE_HEIGHT,
-                    scene: this.mapScene,
-                    id: 'tacticBlock_' + cellId,
-                    isHudElement: false,
-                    alpha: undefined,
-                    layer: undefined,
-                    rotation: undefined,
-                    sx: undefined,
-                    sy: undefined
-                },
+                }),
                 this.textureTacticBlock
             ));
         }
@@ -284,7 +301,7 @@ export default class MapRenderer extends EventEmitter {
     };
 
     /** Hide all graphics in the display list */
-    public hideGraphics(graphics: Graphic[]) {
+    public hideGraphics(graphics: { hide: Function }[]) {
         for (let i = 0; i < graphics.length; i++) {
             graphics[i].hide();
         }
@@ -292,7 +309,7 @@ export default class MapRenderer extends EventEmitter {
 
 //▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
     /** Show all graphics in the display list */
-    public showGraphics(graphics: Graphic[]) {
+    public showGraphics(graphics: { show: Function }[]) {
         for (let i = 0; i < graphics.length; i++) {
             graphics[i].show();
         }

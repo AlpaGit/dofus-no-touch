@@ -1,7 +1,7 @@
 import Constants from '../Constants'
 
 // in px, max thickness of sidebar
-const MAX_SIDEBAR_NARROW = 175;
+// const MAX_SIDEBAR_NARROW = 175;
 // const MAX_SIDEBAR_WIDE = 210;
 
 /**
@@ -90,7 +90,7 @@ export class DimensionsHelper {
         }
 
         this.computeMapSize(mapHeight);
-        this.bottomBarHeight = Math.min(this.bottomBarHeight, MAX_SIDEBAR_NARROW);
+        this.bottomBarHeight = this.bottomBarHeight / 2;
         //computeBestSizeForUi(mode, isFighting);
 
         this.mapLeft = Math.round(this.sideBarWidth / 2);

@@ -1,8 +1,18 @@
 import Sprite from "../Sprite";
 import SpriteParams from "../SpriteAbstract/SpriteParams.ts";
 import Box from "./Box.ts";
+import Scene from "../Scene";
 
+export class BoxBatchParams extends SpriteParams{
+    public boxes: Box[];
 
+    constructor(id: string, scene: Scene, params: Partial<BoxBatchParams> = {}) {
+        super(id, scene, params);
+        this.boxes = [];
+
+        Object.assign(this, params);
+    }
+}
 
 /** @class BoxBatch
  *
@@ -18,10 +28,10 @@ export default class BoxBatch extends Sprite{
     private _positions: Float32Array = new Float32Array(0);
     private _colorView: Uint32Array = new Uint32Array(0);
 
-    constructor(params: SpriteParams & { boxes: Box[] }) {
-        super(params);
+    constructor(options: BoxBatchParams) {
+        super(options);
 
-        this._boxes = params.boxes;
+        this._boxes = options.boxes;
         this._boxByteSize = this.renderer.getNbBytesPerBox();
         this._bbox = [Infinity, -Infinity, Infinity, -Infinity];
 

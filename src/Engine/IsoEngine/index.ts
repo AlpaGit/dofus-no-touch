@@ -3,7 +3,7 @@ import Scene from "../../Common/Scene";
 import Constants from "../../Common/Constants";
 import WebGLRenderer from "../WebGLRenderer";
 import MapRenderer from "../MapRenderer";
-import Background from "../../Common/Background";
+import Background, {BackgroundParams} from "../../Common/Background";
 import AnimationController from "../AnimationController";
 import Engine from "../Engine.ts";
 import Dimensions, {DimensionsHelper} from "../../Common/DimensionsHelper";
@@ -75,26 +75,18 @@ export default class IsoEngine  extends EventEmitter {
             prerenderQualityRatio:  Constants.PRERENDER_RATIO_MAP,
 
             adjustToCanvasRatio: true,
-            usePrecisionRendering: false
+            usePrecisionRendering: true
         });
 
         // Creation of the roleplay scene's background
-        let backgroundParams = {
-            scene: this.mapScene,
+        let backgroundParams = new BackgroundParams('mapBackground', this.mapScene, {
             layer: Constants.MAP_LAYER_BACKGROUND,
             position: -1,
             x: -Constants.HORIZONTAL_OFFSET,
             y: -Constants.VERTICAL_OFFSET,
             w: Constants.MAP_SCENE_WIDTH,
             h: Constants.MAP_SCENE_HEIGHT,
-            id: 'mapBackground',
-            isHudElement: false,
-            alpha: undefined,
-            rotation: undefined,
-            sx: undefined,
-            sy: undefined,
-            hue: undefined
-        };
+        });
 
         // TODO: remove reference to WebGL Renderer
         this.renderer     = this.mapScene.renderer;

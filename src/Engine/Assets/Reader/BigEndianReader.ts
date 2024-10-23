@@ -253,6 +253,19 @@ export default class BigEndianReader {
             .toString("utf8");
     }
 
+    readBigUTF(): string {
+        const length = this.readUInt();
+
+        const prevPointer = this.pointer;
+
+        this.pointer += length;
+
+        return this.buffer
+            .subarray(prevPointer, prevPointer + length)
+            .toString("utf8");
+    }
+
+
     readUTFBytes(length: number): string {
         const prevPointer = this.pointer;
 

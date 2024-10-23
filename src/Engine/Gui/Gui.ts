@@ -32,7 +32,7 @@ export default class Gui {
             clearTimeout(resizeTimer);
             resizeTimer = setTimeout(function () {
                 self._resizeUi();
-            }, 10)  as any as number;
+            }, 1)  as any as number;
         }
 
         window.addEventListener('scroll', resizeAfterDelay);
